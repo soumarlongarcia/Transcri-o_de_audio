@@ -1,0 +1,589 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.1">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="pt-BR"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Transcritor de Áudio e Arquivos&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- Incluindo Tailwind CSS para estilização moderna e responsiva --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Estilização para a fonte e o fundo */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>font-family: 'Inter', sans-serif;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>background-color: #f7f9fc;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Efeito de sombreamento sutil no card principal */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.card {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 0 10px 0 rgba(0, 0, 0, 0.04);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Animação de pulsação para o botão de gravação */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes pulse-red {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.recording-pulse {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: pulse-red 1.5s infinite;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Animação de carregamento (spinner) */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.loader {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>border-top-color: #fff; /* Branco para contraste */</p>
+<p class="p1"><span class="Apple-converted-space">            </span>-webkit-animation: spinner 1.5s linear infinite;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>animation: spinner 1.5s linear infinite;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@-webkit-keyframes spinner {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0% { -webkit-transform: rotate(0deg); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>100% { -webkit-transform: rotate(360deg); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>@keyframes spinner {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>0% { transform: rotate(0deg); }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>100% { transform: rotate(360deg); }</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>tailwind.config = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>theme: {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>extend: {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>colors: {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>primary: '#3b82f6',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>secondary: '#10b981',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body class="p-4 md:p-8 min-h-screen flex items-center justify-center"&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="app" class="card bg-white w-full max-w-4xl rounded-xl p-6 md:p-10 transition-all duration-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2"&gt;🎙️ Transcritor Multimídia&lt;/h1&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;p class="text-gray-500 mb-6 border-b pb-4"&gt;Escolha o modo de transcrição mais adequado para sua mídia.&lt;/p&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Navegação por Abas --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="flex border-b border-gray-200 mb-6 flex-wrap"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="tabMicrophone" onclick="switchMode('microphone')"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>class="py-2 px-4 text-sm font-medium transition-colors duration-200 border-b-2 border-primary text-primary"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Microfone</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;button id="tabFile" onclick="switchMode('file')"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>class="py-2 px-4 text-sm font-medium transition-colors duration-200 border-b-2 border-transparent text-gray-500 hover:text-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Upload Arquivo/Vídeo</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">             </span>&lt;button id="tabURL" onclick="switchMode('url')"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>class="py-2 px-4 text-sm font-medium transition-colors duration-200 border-b-2 border-transparent text-gray-500 hover:text-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Link (URL)</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Conteúdo das Abas --&gt;</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 1. Modo Microfone --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="microphoneMode"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-500 mb-4"&gt;A transcrição acontece em tempo real usando o recurso nativo do seu navegador (PT-BR). Use o botão "Traduzir Resultado" abaixo para traduzir o texto final, se necessário.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex flex-col items-center mb-8 space-y-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="recordButton"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>class="w-40 h-40 rounded-full bg-primary text-white font-semibold flex items-center justify-center transition-all duration-300 transform hover:scale-105 active:scale-95 text-xl shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>onclick="toggleRecording()"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Iniciar Gravação</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p id="micStatusMessage" class="text-lg font-medium text-gray-600 h-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Clique para começar</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 2. Modo Upload de Arquivo --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="fileMode" class="hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="text-gray-500 mb-4"&gt;Envie um arquivo de áudio (mp3, wav, flac) ou vídeo (mp4, mov) para ser processado pela IA do Gemini.&lt;/p&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;!-- Opção de Tradução no Processamento --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="space-y-4 mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-200"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="checkbox" id="translateToggle"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                           </span>class="h-5 w-5 text-primary rounded border-gray-300 focus:ring-primary/50 cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="translateToggle" class="text-base font-medium text-gray-700 cursor-pointer"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>Transcrever e Traduzir Automaticamente para Português (na mesma etapa)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex flex-col md:flex-row gap-4 mb-6 items-end"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="flex-grow w-full"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;label for="fileInput" class="block text-sm font-medium text-gray-700 mb-1"&gt;Selecione o Arquivo&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="file" id="fileInput" accept="audio/*,video/*"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                           </span>class="w-full border border-gray-300 p-2 rounded-lg bg-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-colors"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="processFileButton" onclick="processFile()"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>class="w-full md:w-auto px-6 py-2 bg-secondary text-white rounded-lg font-semibold transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span id="buttonText"&gt;Transcrever Arquivo&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div id="loadingSpinner" class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-6 w-6 hidden"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div id="fileError" class="p-3 bg-red-100 text-red-700 rounded-lg hidden mb-4"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- 3. Modo Link/URL --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="urlMode" class="hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="p-4 bg-blue-50 border border-blue-200 rounded-lg mb-6"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="font-semibold text-blue-800 mb-2"&gt;⚠️ Limitação Técnica:&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-blue-700 text-sm"&gt;Devido às restrições de segurança (CORS), este aplicativo **não pode** acessar ou baixar diretamente mídias de &lt;strong&gt;links externos (WhatsApp, Instagram, YouTube)&lt;/strong&gt;. &lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;p class="text-blue-700 text-sm mt-2"&gt;&lt;strong&gt;Ação necessária:&lt;/strong&gt; Você deve primeiro &lt;strong&gt;baixar&lt;/strong&gt; o arquivo de áudio ou vídeo (ex: mp4, mp3) para o seu computador e, em seguida, usar a aba &lt;strong&gt;"Upload Arquivo/Vídeo"&lt;/strong&gt; para fazer a transcrição e tradução.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="urlInput" class="block text-sm font-medium text-gray-700 mb-1"&gt;Cole o Link do Arquivo/Vídeo&lt;/label&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="urlInput" placeholder="https://exemplo.com/seu-audio.mp3" readonly</p>
+<p class="p1"><span class="Apple-converted-space">                   </span>class="w-full border border-gray-300 p-3 rounded-lg bg-gray-100 text-gray-500 cursor-not-allowed mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Área de Transcrição (Comum) --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="bg-gray-100 p-4 md:p-6 rounded-lg border border-gray-300 mt-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;h2 class="text-xl font-semibold text-gray-700 mb-3 flex items-center"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>Resultado da Transcrição</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;textarea id="transcriptionOutput" rows="8"<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                      </span>class="w-full text-gray-800 p-3 bg-white rounded-lg border-2 border-gray-300 focus:border-primary transition-colors duration-200 outline-none text-base resize-none"</p>
+<p class="p1"><span class="Apple-converted-space">                      </span>placeholder="O texto transcrito aparecerá aqui..."&gt;&lt;/textarea&gt;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="flex flex-wrap gap-3 mt-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="copyButton" onclick="copyToClipboard()"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-green-600 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>Copiar Texto</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="translateOutputButton" onclick="translateCurrentOutput()"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span id="translateButtonText"&gt;Traduzir Resultado (PT)&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div id="translateLoadingSpinner" class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-4 w-4 hidden"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;!-- Mensagem de Compatibilidade --&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;div id="compatibilityWarning" class="mt-6 p-4 bg-yellow-100 text-yellow-700 rounded-lg hidden"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p class="font-semibold"&gt;Aviso:&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;p&gt;A API de Microfone funciona melhor no Google Chrome. A transcrição de arquivos/vídeos e a tradução usam a IA do Gemini e são compatíveis com todos os navegadores.&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Constantes e Variáveis Globais ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const apiKey = ""; // Chave da API do Gemini (deixada em branco para uso no Canvas)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const recordButton = document.getElementById('recordButton');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const micStatusMessage = document.getElementById('micStatusMessage');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const transcriptionOutput = document.getElementById('transcriptionOutput');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const compatibilityWarning = document.getElementById('compatibilityWarning');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const copyButton = document.getElementById('copyButton');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const translateToggle = document.getElementById('translateToggle');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tabMicrophone = document.getElementById('tabMicrophone');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tabFile = document.getElementById('tabFile');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const tabURL = document.getElementById('tabURL');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const microphoneMode = document.getElementById('microphoneMode');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fileMode = document.getElementById('fileMode');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const urlMode = document.getElementById('urlMode');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fileInput = document.getElementById('fileInput');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const processFileButton = document.getElementById('processFileButton');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const buttonText = document.getElementById('buttonText');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const loadingSpinner = document.getElementById('loadingSpinner');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const fileError = document.getElementById('fileError');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const translateOutputButton = document.getElementById('translateOutputButton');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const translateButtonText = document.getElementById('translateButtonText');</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const translateLoadingSpinner = document.getElementById('translateLoadingSpinner');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Estado global para o modo e a gravação</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let currentMode = 'microphone';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let isRecording = false;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Lógica de Microfone (SpeechRecognition) ---</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>let recognition = null;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (SpeechRecognition) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition = new SpeechRecognition();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.continuous = true;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.interimResults = true;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.lang = 'pt-BR';<span class="Apple-converted-space"> </span></p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.onstart = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isRecording = true;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordButton.textContent = 'Gravando... (Clique para Parar)';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordButton.classList.add('bg-red-500', 'recording-pulse');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordButton.classList.remove('bg-primary');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>micStatusMessage.textContent = 'Microfone Ativo. Fale agora.';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.value = transcriptionOutput.value.trim() + (transcriptionOutput.value.trim() ? ' ' : '');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.onresult = (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let interimTranscript = '';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let finalTranscript = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>for (let i = event.resultIndex; i &lt; event.results.length; i++) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const transcript = event.results[i][0].transcript;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (event.results[i].isFinal) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>finalTranscript += transcript + ' ';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>interimTranscript += transcript;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (finalTranscript) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>transcriptionOutput.value += finalTranscript;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>micStatusMessage.textContent = 'Transcrevendo: ' + (interimTranscript ? interimTranscript : 'Escutando...');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.onerror = (event) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error('Erro de Reconhecimento de Fala:', event.error);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>micStatusMessage.textContent = `Erro: ${event.error}. Tente novamente.`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopRecording();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>recognition.onend = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopRecording();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>micStatusMessage.textContent = 'Gravação encerrada. Clique para recomeçar.';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Se a API do Microfone não for suportada</p>
+<p class="p1"><span class="Apple-converted-space">            </span>recordButton.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>recordButton.textContent = 'API Não Suportada';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>micStatusMessage.textContent = 'A API de Reconhecimento de Fala não é suportada neste navegador.';</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Funções de Controle de Microfone ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function startRecording() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (recognition) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>transcriptionOutput.value = '';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>recognition.start();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (e) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (e.name === 'InvalidStateError') {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>micStatusMessage.textContent = 'O reconhecimento já está ativo.';</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>micStatusMessage.textContent = `Erro ao iniciar: ${e.message}`;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>console.error('Erro ao iniciar reconhecimento:', e);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function stopRecording() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (recognition &amp;&amp; isRecording) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recognition.stop();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>isRecording = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordButton.textContent = 'Iniciar Gravação';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordButton.classList.remove('bg-red-500', 'recording-pulse');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>recordButton.classList.add('bg-primary');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function toggleRecording() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isRecording) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopRecording();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>startRecording();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Funções de UI para Modo Arquivo ---</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Atualiza o texto do botão de processamento e a cor com base no estado da tradução.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function updateFileButtonText() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const shouldTranslate = translateToggle.checked;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (shouldTranslate) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('buttonText').textContent = 'Transcrever e Traduzir';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>processFileButton.classList.remove('bg-secondary', 'hover:bg-green-600');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>processFileButton.classList.add('bg-purple-600', 'hover:bg-purple-700');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('buttonText').textContent = 'Transcrever Arquivo';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>processFileButton.classList.remove('bg-purple-600', 'hover:bg-purple-700');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>processFileButton.classList.add('bg-secondary', 'hover:bg-green-600');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Lógica Comum de Chamada à API (Tradução e Transcrição) ---</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Executa a chamada à API do Gemini com backoff exponencial.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function callGeminiApi(payload) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let response = null;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>let attempts = 0;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const MAX_ATTEMPTS = 5;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>while (attempts &lt; MAX_ATTEMPTS) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>response = await fetch(apiUrl, {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>method: 'POST',</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>headers: { 'Content-Type': 'application/json' },</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>body: JSON.stringify(payload)</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (response.ok) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>return response; // Sucesso</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else if (response.status === 429) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>// Too Many Requests - Implementar backoff</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>const delay = Math.pow(2, attempts) * 1000;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>await new Promise(resolve =&gt; setTimeout(resolve, delay));</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>attempts++;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>throw new Error(`Erro HTTP: ${response.status}`);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (attempts === MAX_ATTEMPTS - 1) throw error;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>attempts++;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>throw new Error("Falha ao obter resposta da API após várias tentativas.");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Lógica de Arquivo/Vídeo (Gemini API) ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Converte um arquivo em Base64, necessário para o payload da API.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @param {File} file<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">         </span>* @returns {Promise&lt;string&gt;} Base64 data string.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function fileToGenerativePart(file) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>return new Promise((resolve, reject) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const reader = new FileReader();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reader.onload = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>const base64Data = reader.result.split(',')[1];</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>resolve({</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>inlineData: {</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>mimeType: file.type,</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>data: base64Data</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reader.onerror = error =&gt; reject(error);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>reader.readAsDataURL(file);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Lida com o processamento do arquivo e chamada à API.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function processFile() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const file = fileInput.files[0];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const shouldTranslate = translateToggle.checked;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>fileError.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transcriptionOutput.value = '';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!file) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fileError.textContent = 'Por favor, selecione um arquivo de áudio ou vídeo.';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fileError.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Limite de 10MB para evitar falhas no Base64 e na API</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const MAX_SIZE_BYTES = 10 * 1024 * 1024;<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (file.size &gt; MAX_SIZE_BYTES) {</p>
+<p class="p1"><span class="Apple-converted-space">                 </span>fileError.textContent = 'Arquivo muito grande. Tente um arquivo menor que 10MB.';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fileError.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Ativa o estado de carregamento</p>
+<p class="p1"><span class="Apple-converted-space">            </span>processFileButton.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>buttonText.textContent = shouldTranslate ? 'Processando e Traduzindo...' : 'Processando...';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>loadingSpinner.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transcriptionOutput.placeholder = 'Aguarde, a IA está transcrevendo o arquivo... (pode levar alguns minutos para arquivos longos)';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const mediaPart = await fileToGenerativePart(file);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>let userQuery;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (shouldTranslate) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Prompt para transcrição E tradução em uma única etapa</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>userQuery = "Transcreva o conteúdo de áudio/vídeo deste arquivo e traduza o resultado para Português (Brasil). O resultado final deve ser apenas o texto traduzido para Português, sem comentários ou a transcrição original.";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Prompt para transcrição APENAS</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>userQuery = "Transcreva o conteúdo de áudio/vídeo deste arquivo o mais fielmente possível. Não adicione comentários, apenas o texto da transcrição.";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const payload = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>contents: [</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{ parts: [{ text: userQuery }, mediaPart] }</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = await callGeminiApi(payload);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const result = await response.json();</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const text = result?.candidates?.[0]?.content?.parts?.[0]?.text ||<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                             </span>"Não foi possível extrair a transcrição/tradução. Tente outro arquivo ou formato.";</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.value = text;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = shouldTranslate ? 'Transcriçã e tradução simultânea concluídas.' : 'Transcrição concluída.';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Erro na transcrição de arquivo:", error);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fileError.textContent = `Erro ao processar: ${error.message}. Certifique-se de que o arquivo não exceda o limite de tamanho.`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fileError.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = 'Ocorreu um erro.';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Desativa o estado de carregamento e restaura o texto do botão</p>
+<p class="p1"><span class="Apple-converted-space">                </span>processFileButton.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateFileButtonText(); // Usa a função para restaurar o texto e a cor corretos</p>
+<p class="p1"><span class="Apple-converted-space">                </span>loadingSpinner.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Lógica de Tradução Universal ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>async function translateCurrentOutput() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const textToTranslate = transcriptionOutput.value.trim();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (!textToTranslate) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = "Nada para traduzir. Transcreva ou cole um texto primeiro.";</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Ativa o estado de carregamento do botão de tradução</p>
+<p class="p1"><span class="Apple-converted-space">            </span>translateOutputButton.disabled = true;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>translateButtonText.textContent = 'Traduzindo...';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>translateLoadingSpinner.classList.remove('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const userQuery = `Traduza o seguinte texto para Português (Brasil). Mantenha a formatação original (parágrafos, quebras de linha). Não adicione comentários, apenas o texto traduzido:\n\n---\n${textToTranslate}`;</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const payload = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>contents: [{ parts: [{ text: userQuery }] }],</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const response = await callGeminiApi(payload);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const result = await response.json();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>const translatedText = result?.candidates?.[0]?.content?.parts?.[0]?.text ||<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">                                     </span>"Não foi possível traduzir o texto. Tente novamente.";</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Sobrescreve o texto de saída com a tradução</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.value = translatedText;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = 'Tradução concluída.';</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (error) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error("Erro na tradução:", error);</p>
+<p class="p2"><span class="Apple-converted-space">                </span></p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Em caso de erro, exibe uma mensagem no próprio campo de texto.</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const errorMessage = `ERRO DE TRADUÇÃO: Não foi possível traduzir o texto. Por favor, tente novamente mais tarde. (Detalhes na console do navegador).`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.value = errorMessage;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = 'Ocorreu um erro na tradução.';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} finally {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>// Desativa o estado de carregamento</p>
+<p class="p1"><span class="Apple-converted-space">                </span>translateOutputButton.disabled = false;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>translateButtonText.textContent = 'Traduzir Resultado (PT)';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>translateLoadingSpinner.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Funções Comuns e UI ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>/**</p>
+<p class="p1"><span class="Apple-converted-space">         </span>* Troca entre os modos de Microfone, Arquivo/Vídeo e URL.</p>
+<p class="p1"><span class="Apple-converted-space">         </span>*/</p>
+<p class="p1"><span class="Apple-converted-space">        </span>function switchMode(mode) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (isRecording) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>stopRecording(); // Para a gravação se estiver ativa</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Limpa a saída</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transcriptionOutput.value = '';</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Oculta todos os modos</p>
+<p class="p1"><span class="Apple-converted-space">            </span>microphoneMode.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>fileMode.classList.add('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>urlMode.classList.add('hidden');<span class="Apple-converted-space"> </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>fileError.classList.add('hidden'); // Limpa o erro de arquivo</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Atualiza o estado</p>
+<p class="p1"><span class="Apple-converted-space">            </span>currentMode = mode;</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Define as classes das abas</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const allTabs = [tabMicrophone, tabFile, tabURL];</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const activeTab = document.getElementById('tab' + mode.charAt(0).toUpperCase() + mode.slice(1));</p>
+<p class="p2"><span class="Apple-converted-space">            </span></p>
+<p class="p1"><span class="Apple-converted-space">            </span>allTabs.forEach(tab =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tab.classList.remove('border-primary', 'text-primary');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>tab.classList.add('border-transparent', 'text-gray-500', 'hover:text-gray-700');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>});</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (activeTab) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>activeTab.classList.add('border-primary', 'text-primary');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>activeTab.classList.remove('border-transparent', 'text-gray-500', 'hover:text-gray-700');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Exibe o modo correto e define o placeholder</p>
+<p class="p1"><span class="Apple-converted-space">            </span>if (mode === 'microphone') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>microphoneMode.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = 'O texto transcrito aparecerá aqui em tempo real...';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>micStatusMessage.textContent = 'Clique para começar';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (mode === 'file') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>fileMode.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = 'Selecione e transcreva um arquivo.';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>updateFileButtonText(); // Garante que o botão tenha o texto e a cor corretos ao mudar para esta aba</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} else if (mode === 'url') {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>urlMode.classList.remove('hidden');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>transcriptionOutput.placeholder = 'A transcrição via link requer download prévio. Siga as instruções acima.';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>function copyToClipboard() {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transcriptionOutput.select();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>transcriptionOutput.setSelectionRange(0, 99999);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>document.execCommand('copy');</p>
+<p class="p1"><span class="Apple-converted-space">                </span>copyButton.textContent = 'Copiado!';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; { copyButton.textContent = 'Copiar Texto'; }, 2000);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>} catch (err) {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.error('Falha ao copiar:', err);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>copyButton.textContent = 'Falha ao Copiar!';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Inicializa com o modo Microfone</p>
+<p class="p1"><span class="Apple-converted-space">        </span>switchMode('microphone');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Exibe o aviso de compatibilidade inicial</p>
+<p class="p1"><span class="Apple-converted-space">        </span>compatibilityWarning.classList.remove('hidden');</p>
+<p class="p2"><span class="Apple-converted-space">        </span></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Adiciona listener para a opção de tradução no upload</p>
+<p class="p1"><span class="Apple-converted-space">        </span>if (translateToggle) {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>translateToggle.addEventListener('change', updateFileButtonText);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
